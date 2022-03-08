@@ -35,9 +35,7 @@ broadmann = datasets.fetch_atlas_talairach(level_name='ba')
 # Se obtienen etiquetas:
 roi_names=broadmann.labels
 roi_names.remove('Background')
-#roi_names.replace('Brodmann area','BA')
-#r.assign(sub("Brodmann area", "'BA'", roi_names),roi_names)
-#print(roi_names)
+#[f.replace('Broadman area', 'BA') for f in roi_names]
 
 # Crea una máscara para extraer los datos funcionales de las parcelas del atlas
 masker= NiftiLabelsMasker(labels_img=broadmann['maps'], standardize=True, memory='nilearn_cache',verbose=1,detrend=True,low_pass = 0.08, high_pass = 0.009,t_r=2)

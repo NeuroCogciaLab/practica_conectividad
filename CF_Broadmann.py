@@ -9,6 +9,7 @@ from nilearn.connectome import ConnectivityMeasure
 from nilearn.interfaces.fmriprep import load_confounds
 import matplotlib.pyplot as plt
 import numpy as np
+#from rpy2.robjects import r
 # Se carga la carpeta en que se encuentran tus datos
 """Ajusta la ruta de los archivos en fmri_dir para que coincida con 
 la ubicación en que se encuentran los datos en tu cuenta"""
@@ -31,8 +32,12 @@ print('Se obtuvieron datos del archivo NiFTI y la máscara cerebral de los sujet
 
 # Se carga el atlas de parcelación a usar
 broadmann = datasets.fetch_atlas_talairach(level_name='ba')
-print('La imagen nifti (3D) del mapa de Broadmann se localiza '
-'en: %s' % broadmann['maps'])   
+# Se obtienen etiquetas:
+roi_names=broadmann.labels
+roi_names.remove('Background')
+#roi_names.replace('Brodmann area','BA')
+#r.assign(sub("Brodmann area", "'BA'", roi_names),roi_names)
+#print(roi_names)
 
 # Crea una máscara para extraer los datos funcionales de las parcelas del atlas
 masker= NiftiLabelsMasker(labels_img=broadmann['maps'], standardize=True, memory='nilearn_cache',verbose=1,detrend=True,low_pass = 0.08, high_pass = 0.009,t_r=2)
@@ -49,10 +54,11 @@ func_img=nimg.load_img(func_file)
 print('Se cargó la imagen funcional del sujeto sub-{0}'.format(sub[0]))
 
 # Se extrae la serie temporal de las regiones del atlas en el sujeto
+print("Preparándose para extraer la serie temporal de las ROIs... Cargando datos:")
 time_series=masker.fit_transform(func_img,confounds=confounds_file,sample_mask=sample_file)
 roi_shape=time_series.shape
 print('Se obtuvo la serie temporal de las ROI para el sujeto {0}'.format(sub[0]))
-print('Puntos temporales, número de regiones: {0}'.format(roi_shape))
+print('La extracción se hizo para X y Y (X=Puntos temporales, Y=Número de regiones): {0}'.format(roi_shape))
 
 # Calculando la conectividad 
 correlation_measure = ConnectivityMeasure(kind='correlation')
@@ -60,17 +66,27 @@ correlation_matrix = correlation_measure.fit_transform([time_series])
 corr_mat_shape=correlation_matrix.shape
 print("""Se construyó una matriz de conectividad con las características:
 (numero de sujetos,número de regiones, número de regiones):{0}""".format(corr_mat_shape))
+
 # Guardando la matriz de correlación 
+print("Guardando datos...")
 numpy_matrix=np.squeeze(correlation_matrix)
-np.save('matriz_correlacion.npy',numpy_matrix)
+np.save('matriz_correlacion_Broadmann.npy',numpy_matrix)
 
 # Graficando la matriz de correlación
 coordinates= plotting.find_parcellation_cut_coords(labels_img=broadmann['maps'])
-plotting.plot_connectome(correlation_matrix[0],coordinates,edge_threshold="80%",title='Mapa de Broadmann')
-print('Se generó el gráfico de la matriz, preparando para mostrarlo...')
-plt.savefig("conectoma.png")
-#plt.show()
+plotting.plot_connectome(correlation_matrix[0],coordinates,edge_threshold="20%",title='Mapa de Broadmann',colorbar=True)
+plt.savefig("conectoma_Broadmann.png")
 
-plotting.plot_matrix(correlation_matrix[0],labels=broadmann['labels'],colorbar=True, vmax=1,vmin=-1)
-plt.savefig("matriz_conectividad.png")
-#plt.show()
+plotting.plot_matrix(correlation_matrix[0],labels=roi_names,auto_fit=True,reorder='single',colorbar=True, figure=(11, 10),vmax=1,vmin=-1)
+plt.savefig("matriz_conectividad_Broadmann.png")
+plt.yticks(range(len(roi_names)), roi_names);
+plt.xticks(range(len(roi_names)), roi_names, rotation=90);
+plt.title('Matriz de correlación: Mapa de Broadmann');
+
+import os
+ubicacion=os.getcwd()
+print("""Se guardaron 3 archivos:
+  - Archivo con resultados numéricos correlaciones: matriz_correlacion_Broadmann.npy
+  - Imagen del grafo (retiene 20% de las conexiones más fuertes): conectoma_Broadmann.png
+  - Imagen de la matriz de conectividad:matriz_conectividad_Broadmann.png
+  Puedes encontrarlos en {0}""".format(ubicacion))

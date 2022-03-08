@@ -75,7 +75,13 @@ coordinates= plotting.find_parcellation_cut_coords(labels_img=schaefer['maps'])
 plotting.plot_connectome(correlation_matrix[0],coordinates,edge_threshold="20%",title='Schaefer atlas 100', colorbar=True)
 plt.savefig("conectoma_schaefer.png")
 
-plotting.plot_matrix(correlation_matrix[0],labels=roi_names,auto_fit=True,reorder='single',tri='lower',colorbar=True, vmax=1,vmin=-1)
+#plotting.plot_matrix(correlation_matrix[0],labels=roi_names,auto_fit=True,reorder='single',tri='lower',colorbar=True, figure=(11,10),vmax=1,vmin=-1)
+fig = plt.figure(figsize=(15,14))
+plt.imshow(correlation_matrix[0], interpolation='None', cmap='RdYlBu_r')
+plt.yticks(range(len(roi_names)), roi_names);
+plt.xticks(range(len(roi_names)), roi_names, rotation=90);
+plt.title('Parcellation correlation matrix')
+plt.colorbar();
 plt.savefig("matriz_conectividad_schaefer.png")
 
 import os

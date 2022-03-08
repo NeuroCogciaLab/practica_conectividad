@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+*.png
+*.npy
+*.txt
+bids_dir/
+nilearn_cache/

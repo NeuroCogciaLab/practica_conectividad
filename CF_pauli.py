@@ -1,5 +1,6 @@
 """
-Script para ejecutar el análisis de conectividad de 1 sujeto con parcelación con el atlas Yeo17 (2011)
+Script para ejecutar el análisis de conectividad de 1 sujeto con parcelación con el atlas Pauli con 12 regiones subcorticales
+https://www.nature.com/articles/sdata201863
 """
 from bids import BIDSLayout
 from nilearn import image as nimg
@@ -29,28 +30,32 @@ confounds_simple , sample_mask = load_confounds(func_files,strategy=("high_pass"
 print('Se obtuvieron datos del archivo NiFTI y la máscara cerebral de los sujetos')
 
 # Se carga el atlas de parcelación a usar
-yeo = datasets.fetch_atlas_yeo_2011()
-print('La imagen nifti (3D) del atlas de Yeo con 17 parcelas y máscara liberal se localiza '
-'en: %s' % yeo['thick_17'])   
+pauli = datasets.fetch_atlas_pauli_2017(version='det')
+atlas_filename = pauli.maps
+roi_names = pauli.labels
+print(roi_names)
+#roi_names.remove('Background')
+print('La imagen nifti del atlas Pauli se localiza '
+'en: %s' % atlas_filename)   
 
 # Crea una máscara para extraer los datos funcionales de las parcelas del atlas
-masker= NiftiLabelsMasker(labels_img=yeo['thick_17'], standardize=True, memory='nilearn_cache',verbose=1,detrend=True,low_pass = 0.08, high_pass = 0.009,t_r=2)
+masker= NiftiLabelsMasker(labels_img=atlas_filename, standardize=True, memory='nilearn_cache',verbose=5,detrend=True,low_pass = 0.08, high_pass = 0.009,t_r=2)
          
 # Obtiene los datos del primer sujeto 
-func_file=func_files[0]
-confounds_file=confounds_simple[0]
-sample_file=sample_mask[0]
-print('Se recuperaron datos del sujeto {0}'.format(sub[0]))
+func_file=func_files[1]
+confounds_file=confounds_simple[1]
+sample_file=sample_mask[1]
+print('Se recuperaron datos del sujeto {0}'.format(sub[1]))
 
 # Carga la imagen funcional (NIFTI 4D) del sujeto
 func_img=nimg.load_img(func_file)
-print('Se cargó la imagen funcional del sujeto sub-{0}'.format(sub[0]))
+print('Se cargó la imagen funcional del sujeto sub-{0}'.format(sub[1]))
 
 # Se extrae la serie temporal de las regiones del atlas en el sujeto
 print('Preparándose para extraer la serie temporal de las ROIs... Cargando datos:')
 time_series=masker.fit_transform(func_img,confounds=confounds_file,sample_mask=sample_file)
 roi_shape=time_series.shape
-print('Se obtuvo la serie temporal de las ROI para el sujeto {0}'.format(sub[0]))
+print('Se obtuvo la serie temporal de las ROI para el sujeto {0}'.format(sub[1]))
 print('La extracción se hizo para X y Y (X=Puntos temporales,Y=Número de regiones): {0}'.format(roi_shape))
 
 # Calculando la conectividad 
@@ -63,20 +68,20 @@ print("""Se construyó una matriz de conectividad con las características:
 # Guardando la matriz de correlación 
 print("Guardando datos...")
 numpy_matrix=np.squeeze(correlation_matrix)
-np.save('matriz_correlacion_yeo.npy',numpy_matrix)
+np.save('matriz_correlacion_pauli.npy',numpy_matrix)
 
 # Graficando la matriz de correlación
-coordinates= plotting.find_parcellation_cut_coords(labels_img=yeo['thick_17'])
-plotting.plot_connectome(correlation_matrix[0],coordinates,edge_threshold="80%",title='Yeo atlas 17')
-plt.savefig("conectoma_yeo.png")
+coordinates= plotting.find_parcellation_cut_coords(labels_img=atlas_filename)
+plotting.plot_connectome(correlation_matrix[0],coordinates,edge_threshold="80%",title='Pauli subcortical')
+plt.savefig("conectoma_pauli.png")
 
-plotting.plot_matrix(correlation_matrix[0],labels=[i for i in range(1,18,1)] auto_fit=True,reorder='single',colorbar=True, vmax=1,vmin=-1,tri='lower')
-plt.savefig("matriz_conectividad_yeo.png")
+plotting.plot_matrix(correlation_matrix[0],labels=roi_names,auto_fit=True,reorder='single' ,colorbar=True, vmax=1,vmin=-1)
+plt.savefig("matriz_conectividad_pauli.png")
 
 import os
 ubicacion=os.getcwd()
 print("""Se guardaron 3 archivos:
-  -Archivo con resultados numéricos de correlaciones: matriz_correlacion_yeo.npy
-  - Imagen del grafo (retiene 80% de las conexiones más fuertes): conectoma_yeo.png
-  - Imagen de la matriz de conectividad: matriz_conectividad_yeo.png
+  -Archivo con resultados numéricos de correlaciones: matriz_correlacion_pauli.npy
+  - Imagen del grafo (retiene 80% de las conexiones más fuertes): conectoma_pauli.png
+  - Imagen de la matriz de conectividad: matriz_conectividad_pauli.png
   Puedes encontrarlos en {0}""".format(ubicacion))

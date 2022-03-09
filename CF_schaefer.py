@@ -19,14 +19,12 @@ layout=BIDSLayout(fmri_dir,config=['bids','derivatives'])
 
 # Se obtienen los sujetos que se encuentran en la carpeta
 sub=layout.get_subjects()
-print("""Los sujetos encontrados en el directorio BIDS son: sub-{0} y sub-{1}""".format(sub[0],sub[1]))
+print("""Los sujetos encontrados en el directorio BIDS son: {0}""".format(sub))
 
 # Se obtienen los archivos de los sujetos (funcional y máscara)
 func_files=layout.get(subject=sub,datatype='func',task='rest',desc='preproc',space='MNI152NLin2009cAsym',extension='nii.gz',return_type='file')
 
-confounds_simple , sample_mask = load_confounds(func_files,strategy=("high_pass","motion","wm_csf","ica_aroma","scrub"),motion="basic",wm_csf="basic",ica_aroma="basic")
-
-mask_files= layout.get(subject=sub,datatype='func',task='rest',desc='brain',suffix="mask",space='MNI152NLin2009cAsym',extension='.nii.gz',return_type='file')
+confounds_simple , sample_mask = load_confounds(func_files,strategy=("motion","wm_csf","ica_aroma","scrub"),motion="basic",wm_csf="basic",ica_aroma="basic")
 
 print('Se obtuvieron datos del archivo NiFTI y la máscara cerebral de los sujetos')
 
@@ -41,21 +39,20 @@ print('La parcelación de Schaefer se localiza en %s' %schaefer['maps'])
 masker= NiftiLabelsMasker(labels_img=schaefer['maps'], standardize=True, memory='nilearn_cache',verbose=1,detrend=True,low_pass = 0.08, high_pass = 0.009,t_r=2)
          
 # Obtiene los datos del primer sujeto 
-func_file=func_files[0]
-mask_file=mask_files[0]
-confounds_file=confounds_simple[0]
-sample_file=sample_mask[0]
-print('Se recuperaron datos del sujeto {0}'.format(sub[0]))
+func_file=func_files[1]
+confounds_file=confounds_simple[1]
+sample_file=sample_mask[1]
+print('Se recuperaron datos del sujeto {0}'.format(sub[1]))
 
 # Carga la imagen funcional (NIFTI 4D) del sujeto
 func_img=nimg.load_img(func_file)
-print('Se cargó la imagen funcional del sujeto sub-{0}'.format(sub[0]))
+print('Se cargó la imagen funcional del sujeto sub-{0}'.format(sub[1]))
 
 # Se extrae la serie temporal de las regiones del atlas en el sujeto
 print("Preparándose para extraer la serie temporal de las ROIs... Cargando datos:")
 time_series=masker.fit_transform(func_img,confounds=confounds_file,sample_mask=sample_file)
 roi_shape=time_series.shape
-print('Se obtuvo la serie temporal de las ROI para el sujeto {0}'.format(sub[0]))
+print('Se obtuvo la serie temporal de las ROI para el sujeto {0}'.format(sub[1]))
 print('La extracción se hizo para X y Y (X=Puntos temporales, Y=Número de regiones): {0}'.format(roi_shape))
 
 # Calculando la conectividad 

@@ -14,7 +14,7 @@ import pandas as pd
 """Ajusta la ruta de los archivos en fmri_dir para que coincida con 
 la ubicación en que se encuentran los datos de tu equipo"""
 
-fmri_dir='/home/ebotello/CF_atlas/bids_dir/'
+fmri_dir='/home/ebotello/CF_atlas/abide_fmriprep/'
 layout=BIDSLayout(fmri_dir,config=['bids','derivatives'])
 
 # Se obtienen los sujetos que se encuentran en la carpeta
@@ -25,8 +25,6 @@ print("""Los sujetos encontrados en el directorio BIDS son: sub-{0} y sub-{1}"""
 func_files=layout.get(subject=sub,datatype='func',task='rest',desc='preproc',space='MNI152NLin2009cAsym',extension='nii.gz',return_type='file')
 
 confounds_simple , sample_mask = load_confounds(func_files,strategy=("high_pass","motion","wm_csf","ica_aroma","scrub"),motion="basic",wm_csf="basic",ica_aroma="basic")
-
-mask_files= layout.get(subject=sub,datatype='func',task='rest',desc='brain',suffix="mask",space='MNI152NLin2009cAsym',extension='.nii.gz',return_type='file')
 
 print('Se obtuvieron datos del archivo NiFTI y la máscara cerebral de los sujetos')
 
@@ -40,7 +38,6 @@ masker= NiftiLabelsMasker(labels_img=yeo['thick_17'], standardize=True, memory='
          
 # Obtiene los datos del primer sujeto 
 func_file=func_files[0]
-mask_file=mask_files[0]
 confounds_file=confounds_simple[0]
 sample_file=sample_mask[0]
 print('Se recuperaron datos del sujeto {0}'.format(sub[0]))

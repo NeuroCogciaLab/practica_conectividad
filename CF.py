@@ -14,7 +14,7 @@ import pandas as pd
 """Ajusta la ruta de los archivos en fmri_dir para que coincida con 
 la ubicación en que se encuentran los datos de tu equipo"""
 
-fmri_dir='/home/ebotello/CF_atlas/abide_fmriprep/'
+fmri_dir='/home/ebotello/CF_atlas/bids_dir/'
 layout=BIDSLayout(fmri_dir,config=['bids','derivatives'])
 
 # Se obtienen los sujetos que se encuentran en la carpeta

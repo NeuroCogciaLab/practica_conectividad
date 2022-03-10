@@ -82,6 +82,7 @@ Los scripts trabajan principalmente con funciones del paquete [Nilearn](https://
 **Funcionalmente definidos**
  + Yeo 17 Networks. Consulta: [documentación de nilearn](https://nilearn.github.io/stable/modules/generated/nilearn.datasets.fetch_atlas_yeo_2011.html#nilearn.datasets.fetch_atlas_yeo_2011) o [articulo](https://journals.physiology.org/doi/full/10.1152/jn.00338.2011).
  + Schaefer 100 Parcelas. Consulta: [documentación de nilearn](https://nilearn.github.io/stable/modules/generated/nilearn.datasets.fetch_atlas_schaefer_2018.html#nilearn.datasets.fetch_atlas_schaefer_2018) o [articulo](https://academic.oup.com/cercor/article/28/9/3095/3978804?login=false)
+
 **Anatómicamente definidos**
  + Harvard-Oxford (48 regiones). Consulta [documentación de nilearn](https://nilearn.github.io/stable/modules/generated/nilearn.datasets.fetch_atlas_harvard_oxford.html#nilearn.datasets.fetch_atlas_harvard_oxford), [visualización](https://neurovault.org/collections/262/) o [documentación de FSL](https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/Atlases)
  + Broadmann (Versión atlas de Talairach).  Consulta [documentación de nilearn](https://nilearn.github.io/stable/modules/generated/nilearn.datasets.fetch_atlas_talairach.html#nilearn.datasets.fetch_atlas_talairach) o [página del atlas](http://talairach.org/about.html#Labels)

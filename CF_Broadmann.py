@@ -1,5 +1,5 @@
 """
-Script para ejecutar el análisis de conectividad de 1 sujeto con parcelación con el mapa de Broadmann
+Script para ejecutar el análisis de conectividad de 1 sujeto con parcelación con el mapa de Broadmann (versión Tailarach)
 """
 import os
 from bids import BIDSLayout
@@ -41,17 +41,6 @@ confounds_simple , sample_mask = load_confounds(
   ica_aroma = "basic"
 )
 
-mask_files = layout.get(
-  subject = sub,
-  datatype = 'func',
-  task = 'rest',
-  desc = 'brain',
-  suffix = "mask",
-  space = 'MNI152NLin2009cAsym',
-  extension = '.nii.gz',
-  return_type='file'
-)
-
 print('Se obtuvieron datos del archivo NiFTI y la máscara cerebral de los sujetos')
 
 # Se carga el atlas de parcelación a usar
@@ -75,7 +64,6 @@ masker = NiftiLabelsMasker(
          
 # Obtiene los datos del primer sujeto 
 func_file = func_files[0]
-mask_file = mask_files[0]
 confounds_file = confounds_simple[0]
 sample_file = sample_mask[0]
 print('Se recuperaron datos del sujeto {0}'.format(sub[0]))

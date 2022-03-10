@@ -79,10 +79,10 @@ pipenv run python CF.py
 
 Los scripts trabajan principalmente con funciones del paquete [Nilearn](https://nilearn.github.io/stable/index.html). Nilearn contiene un conjunto de datos precargados, entre ellos atlas a los que puede accederse con el comando ```fetch_atlas_nombre_atlas()```. Este repositorio cuenta con ejemplos de uso de 5 atlas de parcelación distintos:
 
-* Funcionalmente definidos 
+**Funcionalmente definidos**
  + Yeo 17 Networks. Consulta: [documentación de nilearn](https://nilearn.github.io/stable/modules/generated/nilearn.datasets.fetch_atlas_yeo_2011.html#nilearn.datasets.fetch_atlas_yeo_2011) o [articulo](https://journals.physiology.org/doi/full/10.1152/jn.00338.2011).
  + Schaefer 100 Parcelas. Consulta: [documentación de nilearn](https://nilearn.github.io/stable/modules/generated/nilearn.datasets.fetch_atlas_schaefer_2018.html#nilearn.datasets.fetch_atlas_schaefer_2018) o [articulo](https://academic.oup.com/cercor/article/28/9/3095/3978804?login=false)
-* Anatómicamente definidos
+**Anatómicamente definidos**
  + Harvard-Oxford (48 regiones). Consulta [documentación de nilearn](https://nilearn.github.io/stable/modules/generated/nilearn.datasets.fetch_atlas_harvard_oxford.html#nilearn.datasets.fetch_atlas_harvard_oxford), [visualización](https://neurovault.org/collections/262/) o [documentación de FSL](https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/Atlases)
  + Broadmann (Versión atlas de Talairach).  Consulta [documentación de nilearn](https://nilearn.github.io/stable/modules/generated/nilearn.datasets.fetch_atlas_talairach.html#nilearn.datasets.fetch_atlas_talairach) o [página del atlas](http://talairach.org/about.html#Labels)
  + Pauli (atlas subcortical). Consulta [documentación de nilearn](https://nilearn.github.io/stable/modules/generated/nilearn.datasets.fetch_atlas_pauli_2017.html#nilearn.datasets.fetch_atlas_pauli_2017) o [artículo](https://www.nature.com/articles/sdata201863)

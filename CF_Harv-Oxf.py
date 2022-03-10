@@ -102,7 +102,8 @@ plotting.plot_connectome(
   correlation_matrix[0],
   coordinates,
   edge_threshold = "30%",
-  title = 'Harvard-Oxford 48'
+  title = 'Harvard-Oxford 48',
+  colorbar = True,
 )
 plt.savefig("conectoma_Harv-Oxf.png")
 

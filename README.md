@@ -81,7 +81,7 @@ También puedes ir ejecutando cada línea del script. Para esto ejecuta en la te
 ```
 pipenv run python
 ```
-Al copiar y pegar las instrucciones en la terminal irás ejecutando cada línea de manera independiente. 
+Al copiar y pegar las instrucciones en la terminal irás ejecutando cada línea de manera independiente. Considera que si quieres dejar de ejecutar Python tendrás que poner el comando ```exit()``` en tu terminal. 
 
 ### Consideraciones sobre el análisis de conectividad 🧠
 

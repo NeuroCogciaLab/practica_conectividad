@@ -20,7 +20,17 @@ layout = BIDSLayout(fmri_dir, config=['bids', 'derivatives'])
 
 # Se obtienen los sujetos que se encuentran en la carpeta
 sub = layout.get_subjects()
-print("Los sujetos encontrados en el directorio BIDS son: sub-{0} y sub-{1}".format(sub[0],sub[1]))
+print("Los IDs de los sujetos encontrados en el directorio BIDS son: {0}".format(sub)) 
+"""
+Para adaptar el script y que tome los datos del sujeto con un ID en particular, 
+tienes que acceder a ese sujeto por posición. Ej. Si tengo 3 sujetos
+[sub-001, sub-002, sub-003] y quiero trabajar con el sujeto sub-002, tengo que
+decirle a python que número de elemento es. Python cuenta desde cero, por lo que el sujeto 001 está
+en la posición 0, el sujeto 002 en la posición 1 y el sujeto 003 en la posición dos. 
+Para conocer la ruta al archivo del sujeto 002 podrías copiar este código en la terminal y ejecutarlo:
+print(sub[1])
+"""
+
 
 # Se obtienen los archivos de los sujetos (funcional y máscara)
 func_files = layout.get(

@@ -178,6 +178,6 @@ Considera que si no modificas las notas que se imprimen en la terminal con la fu
 ```
 Se recuperaron datos del sujeto 001
 ```
-Puedes modificar esto al poner la posición 1 en la instrucción: ```print('Se recuperaron datos del sujeto {0}'.format(sub[1]))`` y ahora tu salida en terminal reflejaría los datos con los que está trabajando el script (mostraría ```Se recuperaron datos del sujeto 002```). Se tendrían que corregir de la misma forma todos los comandos que incluyan ```.format(sub[0])```.
+Puedes modificar esto al poner la posición 1 en la instrucción: ```print('Se recuperaron datos del sujeto {0}'.format(sub[1]))``` y ahora tu salida en terminal reflejaría los datos con los que está trabajando el script (mostraría ```Se recuperaron datos del sujeto 002```). Se tendrían que corregir de la misma forma todos los comandos que incluyan ```.format(sub[0])```.
 
 

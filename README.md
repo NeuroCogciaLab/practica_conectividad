@@ -74,6 +74,14 @@ Para ejecutar el script, primero debes asegurarte de actualizar la ruta de ```fm
 ```
 pipenv run python CF.py
 ```
+Este comando ejecuta todas las instrucciones del script siempre y cuando estén escritas de manera adecuada. Para seleccionar un atlas de parcelación distinto solo debes ejecutar el archivo con el nombre del atlas elegido (ej. ```pipenv run python CF_pauli.py```).
+
+También puedes ir ejecutando cada línea del script. Para esto ejecuta en la terminal el comando:
+
+```
+pipenv run python
+```
+Al copiar y pegar las instrucciones en la terminal irás ejecutando cada línea de manera independiente. 
 
 ### Consideraciones sobre el análisis de conectividad 🧠
 
@@ -109,3 +117,67 @@ Consulta otros paquetes de python empleados en el script:
 * [numpy.save](https://numpy.org/doc/stable/reference/generated/numpy.save.html).
 
 Adicionalmente puedes consultar el ejercicio de [esta lección](https://carpentries-incubator.github.io/SDC-BIDS-fMRI/07-functional-connectivity-analysis/index.html) para ver un análisis de correlación con múltiples sujetos. 
+
+### Consideraciones sobre la práctica
+Debes ajustar la ruta del objeto ```fmri_dir``` para que coincida con la ubicación de los archivos. Ejemplo, tus carpetas siguen esta estructura:
+
+```
+data/bids/
+├── dataset_description.json
+├── sub-001
+│   └── ses-1 
+│  	   └── func
+│      		 ├── sub-001_task-rest_desc-preproc_bold.json
+│		 └── sub-001_task-rest_desc-confounds_regressors.tsv
+│		 ├── sub-001_task-rest_bold.dtseries.json
+│		 └── sub-001_task-rest_bold.dtseries.nii
+├── sub-002
+│   └── ses-1 
+│  	   └── func
+│      		 ├── sub-002_task-rest_desc-preproc_bold.json
+│		 └── sub-002_task-rest_desc-confounds_regressors.tsv
+│		 ├── sub-002_task-rest_bold.dtseries.json
+│		 └── sub-002_task-rest_bold.dtseries.nii
+├── sub-003
+│   └── ses-1 
+│  	   └── func
+│      		 ├── sub-003_task-rest_desc-preproc_bold.json
+│		 └── sub-003_task-rest_desc-confounds_regressors.tsv
+│		 ├── sub-003_task-rest_bold.dtseries.json
+│		 └── sub-003_task-rest_bold.dtseries.nii
+
+```
+La ruta dentro de tu objeto debe ser: ```fmri_dir='/data/bids/'```
+
+Además de la ruta, debes ajustar el sujeto con el que vas a trabajar. El script está programado para mostrarte en qué orden están acomodados los archivos al ejecutar las líneas:
+```
+sub=layout.get_subjects()
+print("Los IDs de los sujetos encontrados en el directorio BIDS son: {0}".format(sub)) 
+```
+Para la carpeta del ejemplo, la salida en la terminal se vería así:
+
+```
+Los IDs de los sujetos encontrados en el directorio BIDS son: ['001', '002','003']
+```
+Python asigna a cada elemento una posición en particular, empezando desde cero:
+
+```
+'001' [0]
+'002' [1]
+'003' [2]
+```
+Para recuperar algún elemento en particular, basta con especificar la posición asignada por Python. En el script, hay 3 líneas que son muy importantes, pues recuperan los datos de un solo sujeto. Estas son las líneas:
+```
+func_file = func_files[1]
+confounds_file = confounds_simple[1]
+sample_file = sample_mask[1]
+```
+Esta instrucción le está indicando a Python que acceda a los objetos almacenados en la posición 1, en nuestro ejemplo serían datos del sujeto con el identificador (ID) 002. 
+
+Considera que si no modificas las notas que se imprimen en la terminal con la función ```print()``` el script no va a reflejar en automático el cambio de sujeto con el que está trabajando. Por ejemplo, si modificaste los objetos ```func_files```,```confounds_simple``` y ```sample_mask``` pero no la instrucción ```print('Se recuperaron datos del sujeto {0}'.format(sub[0]))```, el script estará procesando los datos del sujeto 002, pero en terminal verás el mensaje:
+```
+Se recuperaron datos del sujeto 001
+```
+Puedes modificar esto al poner la posición 1 en la instrucción: ```print('Se recuperaron datos del sujeto {0}'.format(sub[1]))`` y ahora tu salida en terminal reflejaría los datos con los que está trabajando el script (mostraría ```Se recuperaron datos del sujeto 002```). Se tendrían que corregir de la misma forma todos los comandos que incluyan ```.format(sub[0])```.
+
+

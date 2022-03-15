@@ -73,6 +73,11 @@ masker = NiftiLabelsMasker(
 )
          
 # Obtiene los datos del primer sujeto 
+"""
+Para los objetos func_files, confounds_simple y sample_mask debes modificar la posición dentro de los corchetes
+dependiendo de la posición que ocupa el ID del sujeto con el que vas a trabajar (toma en cuenta el orden en que
+se almacenaron dentro del objeto sub)
+"""
 func_file = func_files[0]
 confounds_file = confounds_simple[0]
 sample_file = sample_mask[0]

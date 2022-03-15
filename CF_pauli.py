@@ -72,7 +72,7 @@ high_pass = 0.009,
 t_r=2
 )
          
-# Obtiene los datos del primer sujeto 
+# Obtiene los datos del segundo sujeto 
 """
 Para los objetos func_files, confounds_simple y sample_mask debes modificar la posición dentro de los corchetes
 dependiendo de la posición que ocupa el ID del sujeto con el que vas a trabajar (toma en cuenta el orden en que

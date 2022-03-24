@@ -156,7 +156,9 @@ print("Los archivos NIfTI de los sujetos encontrados en el directorio BIDS son: 
 Para la carpeta del ejemplo, la salida en la terminal se vería así:
 
 ```
-Los archivos NIfTI de los sujetos encontrados en el directorio BIDS son: ['/data/bids/sub-001/ses-1/func/sub-001_task-rest_desc-preproc_bold.nii.gz', '/data/bids/sub-002/ses-1/func/sub-002_task-rest_desc-preproc_bold.nii.gz','/data/bids/sub-003/ses-1/func/sub-003_task-rest_desc-preproc_bold.nii.gz']```
+Los archivos NIfTI de los sujetos encontrados en el directorio BIDS son: ['/data/bids/sub-001/ses-1/func/sub-001_task-rest_desc-preproc_bold.nii.gz', '/data/bids/sub-002/ses-1/func/sub-002_task-rest_desc-preproc_bold.nii.gz','/data/bids/sub-003/ses-1/func/sub-003_task-rest_desc-preproc_bold.nii.gz']
+```
+
 Aquí, cada elemento está separado de otro por comas y son las rutas hacia el archivo.
  
 Python asigna a cada elemento una posición en particular, empezando desde cero:
@@ -167,6 +169,7 @@ Python asigna a cada elemento una posición en particular, empezando desde cero:
 '/data/bids/sub-003/ses-1/func/sub-003_task-rest_desc-preproc_bold.nii.gz' [2]
 ```
 Para recuperar algún elemento en particular, basta con especificar la posición asignada por Python. En el script, hay 3 líneas que son muy importantes, pues recuperan los datos de un solo sujeto. Estas son las líneas:
+
 ```
 func_file = func_files[1]
 confounds_file = confounds_simple[1]

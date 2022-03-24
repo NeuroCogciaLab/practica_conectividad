@@ -42,6 +42,8 @@ func_files = layout.get(
   extension = 'nii.gz',
   return_type = 'file'
 )
+print("Los archivos NIfTI de los sujetos encontrados en el directorio BIDS son: {0}".format(func_files)) 
+
 
 confounds_simple , sample_mask = load_confounds(
   func_files,

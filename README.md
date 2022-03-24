@@ -149,22 +149,22 @@ data/bids/
 ```
 La ruta dentro de tu objeto debe ser: ```fmri_dir='/data/bids/'```
 
-Además de la ruta, debes ajustar el sujeto con el que vas a trabajar. El script está programado para mostrarte en qué orden están acomodados los archivos al ejecutar las líneas:
+Además de la ruta, debes ajustar el sujeto con el que vas a trabajar. El script está programado para mostrarte en qué orden están acomodados los archivos al ejecutar la línea:
 ```
-sub=layout.get_subjects()
-print("Los IDs de los sujetos encontrados en el directorio BIDS son: {0}".format(sub)) 
+print("Los archivos NIfTI de los sujetos encontrados en el directorio BIDS son: {0}".format(func_files)) 
 ```
 Para la carpeta del ejemplo, la salida en la terminal se vería así:
 
 ```
-Los IDs de los sujetos encontrados en el directorio BIDS son: ['001', '002','003']
-```
+Los archivos NIfTI de los sujetos encontrados en el directorio BIDS son: ['/data/bids/sub-001/ses-1/func/sub-001_task-rest_desc-preproc_bold.nii.gz', '/data/bids/sub-002/ses-1/func/sub-002_task-rest_desc-preproc_bold.nii.gz','/data/bids/sub-003/ses-1/func/sub-003_task-rest_desc-preproc_bold.nii.gz']```
+Aquí, cada elemento está separado de otro por comas y son las rutas hacia el archivo.
+ 
 Python asigna a cada elemento una posición en particular, empezando desde cero:
 
 ```
-'001' [0]
-'002' [1]
-'003' [2]
+'/data/bids/sub-001/ses-1/func/sub-001_task-rest_desc-preproc_bold.nii.gz' [0]
+'/data/bids/sub-002/ses-1/func/sub-002_task-rest_desc-preproc_bold.nii.gz' [1]
+'/data/bids/sub-003/ses-1/func/sub-003_task-rest_desc-preproc_bold.nii.gz' [2]
 ```
 Para recuperar algún elemento en particular, basta con especificar la posición asignada por Python. En el script, hay 3 líneas que son muy importantes, pues recuperan los datos de un solo sujeto. Estas son las líneas:
 ```
@@ -174,10 +174,36 @@ sample_file = sample_mask[1]
 ```
 Esta instrucción le está indicando a Python que acceda a los objetos almacenados en la posición 1, en nuestro ejemplo serían datos del sujeto con el identificador (ID) 002. 
 
-Considera que si no modificas las notas que se imprimen en la terminal con la función ```print()``` el script no va a reflejar en automático el cambio de sujeto con el que está trabajando. Por ejemplo, si modificaste los objetos ```func_files```,```confounds_simple``` y ```sample_mask``` pero no la instrucción ```print('Se recuperaron datos del sujeto {0}'.format(sub[0]))```, el script estará procesando los datos del sujeto 002, pero en terminal verás el mensaje:
+También podemos consultar el orden en que se almacenaron los IDs de los sujetos y podemos usar esta información para mostrar mensajes en la terminal. El script está programado para mostrarte en qué orden están acomodados los IDs al ejecutar las líneas:
+```
+sub=layout.get_subjects()
+print("Los IDs de los sujetos encontrados en el directorio BIDS son: {0}".format(sub)) 
+```
+Para la carpeta del ejemplo, la salida en la terminal podría verse así:
+```
+Los IDs de los sujetos encontrados en el directorio BIDS son: ['002','001','003']
+```
+En este caso, la posición asignada por Python sería la siguiente: 
+```
+'002' [0]
+'001' [1]
+'003' [2]
+```
+Considera que si no modificas las notas que se imprimen en la terminal con la función ```print()``` el script no va a reflejar en automático el cambio de sujeto con el que está trabajando. Dado que no están en el mismo orden, debes verificar que se recupere el ID que corresponde al archivo con el que estás trabajando. Por ejemplo, si modificaste los objetos ```func_files```,```confounds_simple``` y ```sample_mask``` para tomar la posición 1 (sub-002) debes modificar también la salida a terminal de la siguiente forma: ```print('Se recuperaron datos del sujeto {0}'.format(sub[0]))```, así el script estará procesando los datos del sujeto 002 y en terminal verás el mensaje:
+```
+Se recuperaron datos del sujeto 002
+```
+
+Este es un ejemplo de lo que pasaría si no ajustas la posición del sujeto 002 en el mensaje que sale a la terminal: 
+Si en el código tu escribes...
+```
+func_file = func_files[1]
+confounds_file = confounds_simple[1]
+sample_file = sample_mask[1]
+print('Se recuperaron datos del sujeto {0}'.format(sub[1]))
+```
+El script estaría analizando la imagen funcional del sujeto 002 pero te mostraría en la terminal el mensaje: 
 ```
 Se recuperaron datos del sujeto 001
 ```
-Puedes modificar esto al poner la posición 1 en la instrucción: ```print('Se recuperaron datos del sujeto {0}'.format(sub[1]))``` y ahora tu salida en terminal reflejaría los datos con los que está trabajando el script (mostraría ```Se recuperaron datos del sujeto 002```). Se tendrían que corregir de la misma forma todos los comandos que incluyan ```.format(sub[0])```.
-
-
+Asegurate de modificar la posición del objeto sub para que tu salida en terminal coincida con los datos con los que está trabajando el script. Puedes corregir de la misma forma todos los comandos que incluyan ```.format(sub[0])```.

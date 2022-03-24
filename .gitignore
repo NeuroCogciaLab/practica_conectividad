@@ -133,3 +133,8 @@ dmypy.json
 *.txt
 bids_dir/
 nilearn_cache/
+*.json
+*.nii
+*.nii.gz
+*.tsv
+*.csv

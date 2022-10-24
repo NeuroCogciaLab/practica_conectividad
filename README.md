@@ -48,7 +48,7 @@ data/bids/
 
 Para tener estos datos en tu cuenta debes clonar el repositorio. Ubica el icono code en la parte superior de esta página y copia la URL de la opción ‘HTTPS’. 
 
-![icono](https://docs.github.com/assets/cb-36330/images/help/repository/https-url-clone.png)
+![icono](https://docs.github.com/assets/cb-38834/images/help/repository/remotes-url.png)
 
 Ve a tu sesión y ubicate en la terminal:
 
